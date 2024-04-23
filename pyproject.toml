@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "airport-code-workflow"
+version = "0.1.0"
+description = ""
+authors = ["Nate Bohn <nath@nbohn.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.3"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+ignore = ["COM812"]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.black]
+skip-magic-trailing-comma = true
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
