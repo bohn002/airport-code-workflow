@@ -1,21 +1,29 @@
 """Get codes from wiki and clean them"""
 from bs4 import BeautifulSoup
-import requests
 import json
+import requests
+
+import re
 
 url = "https://en.wikipedia.org/wiki/List_of_airports_by_IATA_airport_code:_"
 
 
 def get_page(url, index_letter):
-    return requests.get(f"{url}{index_letter}")
+    return requests.get(f"{url}{index_letter}", timeout=180)
 
 
 codes_dict = {"items": []}
 
 
 def dump_json(code_data):
+    """Dump to JSON File"""
     with open("workflow/airport_codes.json", "w", encoding="utf-8") as file:
         json.dump(code_data, file)
+
+
+def clean(item):
+    """Cleaning text"""
+    return re.sub(r"\[\d\]|\[fr\]", "", item)
 
 
 def get_codes():
@@ -37,9 +45,9 @@ def get_codes():
                 code_list.append(z)
 
         for code in code_list:
-            iata_code = code[0]
-            station_name = code[2]
-            station_location = code[3]
+            iata_code = clean(code[0])
+            station_name = clean(code[2])
+            station_location = clean(code[3])
             codes_dict["items"].append(
                 {
                     "arg": iata_code,
